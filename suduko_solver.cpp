@@ -1,13 +1,16 @@
+                            //program for the suduko solver
 #include<bits/stdc++.h>
-using namespace std;
-bool canweplace(int a[][9],int i,int j,int n,int num){
-    for(int k=0;k<n;k++){
+using namespace std;        
+                            //this below function will tell us that if we can put number in the suduko cell or not
+bool canweplace(int a[][9],int i,int j,int n,int num){  
+        
+    for(int k=0;k<n;k++){                               //for checking in the rows and columns
         if(a[k][j]==num || a[i][k]==num){
             return false;
         }
     }
 
-    //check for the subgrid
+                                                        //check for the subgrid
     int rn = sqrt(n);
     int sx = (i/rn)*rn;
     int sy = (j/rn)*rn;
@@ -21,9 +24,11 @@ bool canweplace(int a[][9],int i,int j,int n,int num){
     }
     return true;
 }
+
+                            //this function will solvee suduko if it is possible and print the solution otherwise will return false
 bool sudukosolver(int mat[][9],int i,int j,int n){
     if(i==n){
-        cout<<"\n\nSUDUKO SOLVED"<<endl;
+        cout<<"\n\nSUDUKO SOLVED"<<endl;           //condition when suduko is solved   or BASE CASE
         for(int k=0;k<n;k++){
             for(int l =0;l<n;l++){
                 cout<<mat[k][l]<<" ";
@@ -34,15 +39,15 @@ bool sudukosolver(int mat[][9],int i,int j,int n){
         return true;
     }
 
-    if(j==n){
+    if(j==n){                                                      //when we have to move into next row
         return sudukosolver(mat,i+1,0,n);
     }
 
-    if(mat[i][j]!=0){
+    if(mat[i][j]!=0){                                           //no change when we found pre-inserted numbers in suduko
         return sudukosolver(mat,i,j+1,n);
     }
 
-    //rec case
+                                                        //RECURSION case
     for(int v=1;v<=n;v++){
         if(canweplace(mat,i,j,n,v)){
             mat[i][j] = v;
@@ -52,11 +57,13 @@ bool sudukosolver(int mat[][9],int i,int j,int n){
             }
         }
     }
+    
+                                                   //BACKTRACKING 
     mat[i][j] = 0;
     return false;
 
 }
-int main(){
+int main(){                                             //MAIN STARTS
     int mat[9][9];
     for(int i=0;i<9;i++){
         for(int j=0;j<9;j++){
@@ -64,4 +71,4 @@ int main(){
         }
     }
     sudukosolver(mat,0,0,9);
-}
+}                                                       //MAIN ENDS
